@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Web Moderne avec Carrousel</title>
+    <style>
+        /* Styles précédents ici... */
+        :root {
+            --bg-light: #F0F0F0;
+            --primary-light: #3498DB;
+            --secondary-light: #9B59B6;
+            --text-light: #FFFFFF;
+            --bg-dark: #1E1E1E;
+            --primary-dark: #5DADE2;
+            --secondary-dark: #BB8FCE;
+            --text-dark: #ECF0F1;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-light);
+            color: var(--text-light);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+        }
+
+        .navbar {
+            background-color: var(--primary-light);
+            padding: 1rem;
+            position: relative;
+        }
+
+        body.dark-mode .navbar {
+            background-color: var(--primary-dark);
+        }
+
+        .navbar-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+        }
+
+        .nav-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-item {
+            margin: 0 1rem;
+        }
+
+        .nav-item a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .nav-item a:hover {
+            color: var(--secondary-light);
+        }
+
+        body.dark-mode .nav-item a:hover {
+            color: var(--secondary-dark);
+        }
+
+        @media (max-width: 768px) {
+            .navbar-toggle {
+                display: block;
+                margin-right: 1rem;
+            }
+
+            .nav-list {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--primary-light);
+                z-index: 1;
+            }
+
+            body.dark-mode .nav-list {
+                background-color: var(--primary-dark);
+            }
+
+            .nav-list.show {
+                display: flex;
+            }
+
+            .nav-item {
+                margin: 0.5rem 0;
+                text-align: center;
+            }
+        }
+
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+            width: 80%;
+            max-width: 800px;
+            height: 400px;
+            margin: 2rem auto;
+            border-radius: 20px;
+            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1s ease;
+        }
+
+        .carousel-slide.active img {
+            transform: scale(1.1);
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.5);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .carousel-btn.prev {
+            left: 10px;
+        }
+
+        .carousel-btn.next {
+            right: 10px;
+        }
+
+        .carousel-btn:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--primary-light);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        body.dark-mode .mode-toggle {
+            background-color: var(--primary-dark);
+        }
+
+        section {
+            padding: 2rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <button class="navbar-toggle" aria-expanded="false" aria-controls="navbar">☰</button>
+        <ul class="nav-list" id="navbar">
+            <li class="nav-item"><a href="#accueil">Accueil</a></li>
+            <li class="nav-item"><a href="#apropos">À propos</a></li>
+            <li class="nav-item"><a href="#services">Services</a></li>
+            <li class="nav-item"><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="carousel-container">
+        <div class="carousel-slide active">
+            <img src="https://picsum.photos/800/400?random=1" alt="Image 1">
+        </div>
+        <div class="carousel-slide">
+            <img src="https://picsum.photos/800/400?random=2" alt="Image 2">
+        </div>
+        <div class="carousel-slide">
+            <img src="https://picsum.photos/800/400?random=3" alt="Image 3">
+        </div>
+        <div class="carousel-slide">
+            <img src="https://picsum.photos/800/400?random=4" alt="Image 4">
+        </div>
+        <button class="carousel-btn prev">&lt;</button>
+        <button class="carousel-btn next">&gt;</button>
+    </div>
+
+    <section id="apropos">
+        <h2>À propos</h2>
+        <p>Voici une brève description de notre site et de ses objectifs.</p>
+    </section>
+
+    <section id="services">
+        <h2>Services</h2>
+        <p>Découvrez nos services et solutions que nous proposons.</p>
+    </section>
+
+    <section id="contact">
+        <h2>Contact</h2>
+        <p>Pour toute demande, veuillez nous contacter.</p>
+    </section>
+
+    <button class="mode-toggle">Mode Sombre</button>
+
+    <script>
+        const navbarToggle = document.querySelector('.navbar-toggle');
+        const navList = document.querySelector('.nav-list');
+
+        navbarToggle.addEventListener('click', () => {
+            navList.classList.toggle('show');
+            const isExpanded = navList.classList.contains('show');
+            navbarToggle.setAttribute('aria-expanded', isExpanded);
+        });
+
+        const slides = document.querySelectorAll('.carousel-slide');
+        const prevBtn = document.querySelector('.prev');
+        const nextBtn = document.querySelector('.next');
+        let currentSlide = 0;
+        let interval;
+
+        function goToSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+
+        function nextSlide() {
+            goToSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            goToSlide(currentSlide - 1);
+        }
+
+        function startAutoSlide() {
+            interval = setInterval(nextSlide, 5000);
+        }
+
+        function stopAutoSlide() {
+            clearInterval(interval);
+        }
+
+        prevBtn.addEventListener('click', () => {
+            prevSlide();
+            stopAutoSlide();
+            startAutoSlide();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            nextSlide();
+            stopAutoSlide();
+            startAutoSlide();
+        });
+
+        const modeToggle = document.querySelector('.mode-toggle');
+        modeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            modeToggle.textContent = document.body.classList.contains('dark-mode') ? 'Mode Clair' : 'Mode Sombre';
+        });
+
+        startAutoSlide();
+    </script>
+</body>
+</html>
